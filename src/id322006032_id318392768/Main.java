@@ -17,6 +17,6 @@ public class Main extends Application {
 		View view = new View(stage);
 		Controller controller = new Controller(model, view);
 		controller.getClass();
-		//hi
+		//hi fsfsefsgsg
 	}
 }
