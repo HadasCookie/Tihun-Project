@@ -2,14 +2,17 @@
 
 package id322006032_id318392768;
 
-import id322006032_id318392768.Question.TypeOfQuestion;
-import javafx.stage.Stage;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Dimension;
+//import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+
+import id322006032_id318392768.Question.TypeOfQuestion;
+import javafx.stage.Stage;
 
 public class View {
 	private Stage stage;
@@ -36,11 +39,12 @@ public class View {
 	private ShowTestView showTestView;
 	private TestCopyChoosenView testCopyChoosenView;
 	private CompareQuView compareQuView;
+	private cangeArryListTotreeMapView treeMap;
 
 	public View(Stage stage) {
 		this.viewListener = new ArrayList<>();
 		this.stage = new Stage();
-		this.stage.setTitle("Program");
+		this.stage.setTitle("NOY & ALMITO");
 		shortWelcomeView();
 	}
 
@@ -91,8 +95,41 @@ public class View {
 			compareQuView();
 
 		});
+		this.welcomeView.gettreeMap().setOnAction(e -> { ///treeMap
+		treeMap();
+		});
 	}
 
+	private void treeMap() {
+		ArrayList<Question> questions = questionsInView();
+		ArrayList<String> questionsStrings = new ArrayList<>();
+		for (Question question : questions)
+			questionsStrings.add(question.getQuestion());
+		this.treeMap= new cangeArryListTotreeMapView(questionsStrings);
+		this.stage.setScene(this.compareQuView.sceneCreation());
+		this.stage.show();
+		this.treeMap.getReturnBt().setOnAction(e -> {
+			this.treeMap.cleanScene();
+			shortWelcomeView();
+		});
+		this.treeMap.getCompareBt().setOnAction(e -> {
+			if (this.treeMap.getComboBoxQ1().getValue() == null
+					|| this.compareQuView.getComboBoxQ2().getValue() == null)
+				this.popMessage("PLEASE CHOOSE A QUESTIONS!");
+			else if (this.compareQuView.getComboBoxQ1().getValue()
+					.equals(this.compareQuView.getComboBoxQ2().getValue()))
+				this.popMessage("PLEASE CHOOSE DIFFRENET QUESTIONS!");
+			else {
+				for (ViewListener v : viewListener)
+					v.compareQuestions((String) this.compareQuView.getComboBoxQ1().getValue(),
+							(String) this.compareQuView.getComboBoxQ2().getValue());
+				this.treeMap.cleanScene();
+				shortWelcomeView();
+			}
+		});
+		
+		
+	}
 	private void compareQuView() {
 		ArrayList<Question> questions = questionsInView();
 		ArrayList<String> questionsStrings = new ArrayList<>();
