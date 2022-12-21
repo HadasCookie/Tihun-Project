@@ -3,6 +3,9 @@
  */
 package id322006032_id318392768;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -11,12 +14,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 public class WelcomeView extends ViewPatterns implements ViewClass {
 	private Button showAllBt, addQnaBt, editQuBt, editAnsBt, deleteAndBt, crTestManualBt, crTestAutoBt, crTestCopyBt,
-			compareQuBt;
+			compareQuBt,treeMap;//
 	private BorderPane borderPane;
 	private VBox vBox;
 	private HBox hBoxDown,hBoxUp;
@@ -27,7 +27,7 @@ public class WelcomeView extends ViewPatterns implements ViewClass {
 		this.hBoxDown = hBoxCreation();
 		this.hBoxUp = hBoxCreation();
 		this.hBoxDown.getChildren().add(exitButtonCreation());
-		this.hBoxUp.getChildren().addAll(stackPaneTextCreation("Hello! Please choose from the following"),new ImageView(new Image(new FileInputStream("pic.png"))));
+		this.hBoxUp.getChildren().addAll(stackPaneTextCreation("Hello!Please choose from the following"),new ImageView(new Image(new FileInputStream("pic.png"))));
 		this.hBoxUp.setSpacing(10);
 		this.borderPane.setBottom(this.hBoxDown);
 		this.borderPane.setTop(this.hBoxUp);
@@ -41,8 +41,9 @@ public class WelcomeView extends ViewPatterns implements ViewClass {
 		this.crTestAutoBt = buttonCreation("Create test automatically");
 		this.crTestCopyBt = buttonCreation("Create test that copy of other test");
 		this.compareQuBt = buttonCreation("Compare two questions according to the length of their answer");
+		this.treeMap=buttonCreation("cangeArryListTotreeMap");//treeMap
 		this.vBox.getChildren().addAll(this.showAllBt,this.addQnaBt, this.editQuBt, this.editAnsBt, this.deleteAndBt,
-				this.crTestManualBt, this.crTestAutoBt, this.crTestCopyBt, this.compareQuBt);
+		this.crTestManualBt, this.crTestAutoBt, this.crTestCopyBt, this.compareQuBt,this.treeMap);//treeMap
 		this.borderPane.setCenter(this.vBox);
 
 	}
@@ -92,6 +93,11 @@ public class WelcomeView extends ViewPatterns implements ViewClass {
 
 	public Button getCompareQuBt() {
 		return compareQuBt;
+	}
+	//treeMap
+
+	public Button gettreeMap() {
+		return treeMap;
 	}
 
 }
