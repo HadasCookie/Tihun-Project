@@ -24,6 +24,7 @@ public class DataBase implements Serializable {
 		this.questions = new ArrayList<>();
 		this.modelListeners = new ArrayList<>();
 		this.answers = new ArrayList<>();
+		this.hashMapQuestions = new HashMap<String, Integer>();
 		try {
 			ObjectInputStream objectInputStreamQuestions = new ObjectInputStream(
 					new FileInputStream("Questions.Binary"));
@@ -74,6 +75,9 @@ public class DataBase implements Serializable {
 			questions = dataBaseQuestions;
 			answers = dataBaseAnswers;
 			saveDatabaseToBinaryFile();
+			copyArrayToANewCollectionAndSortWithDupes();
+			addNewStringToHashSet(" "); // maybe need to lean buffer
+			copyArrayToANewCollectionAndSortNoDupes();
 		}
 	}
 
@@ -399,8 +403,8 @@ public class DataBase implements Serializable {
 		}
 	}
 
-	public HashSet<String> copyToHashSet(HashMap<String, Integer> hashMapSortedList, HashSet<String> hashSet) {
-		for (Map.Entry<String, Integer> entry : hashMapSortedList.entrySet()) {
+	public HashSet<String> copyToHashSet(HashMap<String, Integer> hashMapQuestions, HashSet<String> hashSet) {
+		for (Map.Entry<String, Integer> entry : hashMapQuestions.entrySet()) {
 			String key = entry.getKey();
 			int value = entry.getValue();
 			hashSet.add(key);
@@ -430,5 +434,4 @@ public class DataBase implements Serializable {
 			System.out.println(iter.next());
 		}
 	}
-
 }
