@@ -4,8 +4,7 @@ import id322006032_id318392768.Answer.TypeOfAnswer;
 import id322006032_id318392768.Question.TypeOfQuestion;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class DataBase implements Serializable {
 	/**
@@ -15,6 +14,10 @@ public class DataBase implements Serializable {
 	private ArrayList<Question> questions;
 	private ArrayList<Answer> answers;
 	private ArrayList<ModelListener> modelListeners;
+	private HashMap<String, Integer> hashMapQuestions;
+	private Map<String, Integer> treeMap;
+	private HashSet<String> hashSetList = new HashSet<String>();
+	private Iterator iter;
 
 	@SuppressWarnings("unchecked")
 	public DataBase() throws IOException, ClassNotFoundException {
@@ -364,6 +367,68 @@ public class DataBase implements Serializable {
 		outFile1.writeObject(this.answers);
 		outFile1.close();
 
+	}
+	public void copyArrayToANewCollectionAndSortWithDupes() {
+		for (int i = 0; i < getNumQuestions(); i++) {
+			hashMapQuestions.put(questions.get(i).getQuestion(), i);
+		}
+		treeMap = new TreeMap<String, Integer>(new Comparator<String>() {
+			@Override
+			public int compare(String o1, String o2) {
+				if (o1.length() > o2.length()) {
+					return -1;
+				} else if (o1.length() < o2.length()) {
+					return 1;
+				} else if (o1.length() == o2.length()){
+					return 1;
+				}
+				else {
+					return 0;
+				}
+			}
+		});
+		treeMap.putAll(hashMapQuestions);
+		printTreeMapCollection((TreeMap<String, Integer>) treeMap);
+	}
+
+	public void printTreeMapCollection(TreeMap<String, Integer> treeMap) {
+		System.out.println("This is the sorted TreeMap collection: \n");
+		Iterator<Map.Entry<String, Integer>> entryIt = treeMap.entrySet().iterator();
+		while (entryIt.hasNext()) {
+			System.out.println(entryIt.next());
+		}
+	}
+
+	public HashSet<String> copyToHashSet(HashMap<String, Integer> hashMapSortedList, HashSet<String> hashSet) {
+		for (Map.Entry<String, Integer> entry : hashMapSortedList.entrySet()) {
+			String key = entry.getKey();
+			int value = entry.getValue();
+			hashSet.add(key);
+		}
+		return hashSet;
+	}
+	public void addNewStringToHashSet(String theStr) {
+		iter = hashSetList.iterator();
+		ComparatorStr sComp = new ComparatorStr();
+		while (iter.hasNext()) {
+			int boolVal = sComp.compare((String) iter.next(), theStr);
+			if (boolVal == 0) {
+				System.out.println("Question already exists in the 'HashSet'.");
+				break;
+			}
+		}
+		hashSetList.add(theStr);
+	}
+	public void copyArrayToANewCollectionAndSortNoDupes() {
+		hashSetList = copyToHashSet(hashMapQuestions, hashSetList);
+		printHashSet();
+	}
+
+	public void printHashSet() {
+		iter = hashSetList.iterator();
+		while (iter.hasNext()) {
+			System.out.println(iter.next());
+		}
 	}
 
 }
